@@ -1,0 +1,9 @@
+.card{
+	background-color:#fbadaa;
+	background-image : linear-gradient(to right,#F98B88,#fbadaa);
+	box-shadow: 2px 3px 4px rgba(0,0,0,.25), 2px 4px 6px rgba(0,0,0,.1),-2px 0px 4px rgba(0,0,0,.25);
+	text-align:center;
+	font-family : "cursive","Courier New","monospace","condensed";
+	color:white;
+	border-radius:10px;
+}

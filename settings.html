@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="./css/topnav.css" type="text/css">
+		<link rel="stylesheet" href="./css/background.css" type="text/css">
+		<link rel="stylesheet" href="./css/card.css" type="text/css">
+		<link rel="stylesheet" href="./css/click.css" type="text/css">
+		<title>Settings</title>
+		<style type="text/css">
+			body{
+					padding:2vh 4vw 2vh 4vw;
+				}
+			.card{
+					padding:2vh 2vw 2vh 2vw;
+					margin-bottom:4vh;
+				 }
+		</style>
+	</head>
+	<body id="container">
+		<div class="topnav"><button class="close"  onclick="document.location.href='menu.html'"><b>X</b></button></div>
+		<div class="card">Cycle Length : 
+			<input id="cl" type="number"  min="1"  oninput="update(this);">
+		</div>
+		<div class="card">Period Length : 
+			<input id="pl" type="number"  min="2" max="8" oninput="update(this);">
+		</div>
+		<center><span  class="click" onclick="save();">Save Changes</span></center>
+		
+		<script type="text/javascript">
+		//placing values when page is visited first
+			var c_length = document.getElementById("cl")
+			c_length.value = parseInt(window.localStorage.getItem('cl'));
+			c_length.style.width=(c_length.value.length+2) + "ch";
+			var p_length = document.getElementById("pl")
+			p_length.value = parseInt(window.localStorage.getItem('pl'));
+			p_length.style.width=(p_length.value.length+2) + "ch";
+		
+		//to resize the input number field while value is typed in
+			function update(i)
+			{	
+				i.style.width=(i.value.length+3)+"ch";	
+			}
+			
+		//saving values when save button clicked
+			function save()
+			{
+				if(c_length.value.length==0 || p_length.value.length==0)
+				{
+					return;
+				}
+				else if(parseInt(c_length.value) < parseInt(p_length.value))
+				{
+					alert("Cycle length cannot be less than Period length!");
+					return;
+				}
+				else if(parseInt(c_length.value) < 1)
+				{
+					alert("Cycle length cannot be less than 1!");
+					return;
+				}
+				else if(parseInt(p_length.value) < 2)
+				{
+					alert("period length cannot be less than 2!");
+					return;
+				}
+				else if(parseInt(p_length.value) > 8)
+				{
+					alert("period length cannot be greater than 8!");
+					return;
+				} 
+				else
+				{
+					window.localStorage.setItem('cl',c_length.value);	
+					window.localStorage.setItem('pl',p_length.value);
+					document.location.href="setnoti.html";
+				}
+			}
+		</script>
+		<script type="text/javascript" src="./js/size.js"></script>
+	</body>
+</html>

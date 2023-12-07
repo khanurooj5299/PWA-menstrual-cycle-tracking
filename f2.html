@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>f1</title>
+		<link rel="stylesheet" href="./css/background.css" type="text/css">
+		<link rel="stylesheet" href="./css/card.css" type="text/css">
+		<link rel="stylesheet" href="./css/click.css" type="text/css">
+		<style type="text/css">
+			body{
+					padding:2vh 4vw 2vh 4vw;
+				}
+			.card{
+					padding:2vh 2vw 2vh 2vw;
+					margin-bottom:4vh;
+				 }
+			.click{
+					float:right;
+					display:none;
+				}
+		</style>
+	</head>
+	<body id="container">
+		<div class="card">
+			What is your Cycle Length :<br>
+			<input type="number"  min="1"  oninput="update(this);"><br>
+			<i>
+				Your cycle length is the number of days from the first day of one period to the 
+				day before the next period.
+			</i>
+		</div>
+		<div class="click" onclick="document.location.href='f3.html'">NEXT</div>
+		<script type="text/javascript">
+			function update(i)
+			{	
+				var pl = parseInt(window.localStorage.getItem('pl'));
+				var cycle_length;
+				if(i.value.length==0)
+				{
+					document.getElementsByClassName("click")[0].style.display="none";
+					return;
+				}
+				else if(parseInt(i.value)<1)
+				{
+					alert("Cycle length cannot be less than 1!");
+					document.getElementsByClassName("click")[0].style.display="none";
+					return;
+				}
+				else if(parseInt(i.value)<pl)
+				{
+					alert("Cycle length cannot be less than Period length!");
+					document.getElementsByClassName("click")[0].style.display="none";
+					return;
+				}
+				else 
+					cycle_length = parseInt(i.value);
+					
+				window.localStorage.setItem('cl',cycle_length);
+				i.style.width=(i.value.length+3)+"ch";
+				document.getElementsByClassName("click")[0].style.display="initial";
+			}
+		</script>
+		<script type="text/javascript" src="./js/size.js">
+		</script>
+	</body>
+</html>

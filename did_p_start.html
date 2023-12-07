@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="./css/background.css" type="text/css">
+		<link rel="stylesheet" href="./css/card.css" type="text/css">
+		<link rel="stylesheet" href="./css/click.css" type="text/css">
+		<title>Did periods start</title>
+		<style type="text/css">
+			body{	
+				padding:2vh 4vw 2vh 4vw;
+			}
+			.card{
+				padding:15vh 20vw 10vh 20vw;
+				margin-top:10%;
+				height:30vh;
+			 }
+		</style>
+	</head>
+	<body id="container">
+		<div class="card">Did your periods start?</div><br>
+		<span class="click" style="float:left;" onclick="yes_clicked();">Yes</span>
+		<span class="click" style="float:right;" onclick="document.location.href='main.html'">No</span>
+	<script type="text/javascript" src="./js/size.js"></script>
+	<script type="text/javascript" src="./js/dates.js"></script>
+	<script type="text/javascript">
+		function yes_clicked()
+		{	var mon=t.getMonth();
+			mon++;
+			if(mon<=9)
+				mon="0"+mon;
+			if(date<=9)
+				date="0"+date;
+			window.localStorage.setItem('lpd',y+"-"+mon+"-"+date);
+			document.location.href='main.html';
+		}
+	</script>
+	</body>
+</html>

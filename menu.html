@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>MENU</title>
+		<link rel="stylesheet" href="./css/topnav.css" type="text/css">
+		<link rel="stylesheet" href="./css/background.css" type="text/css">
+		<style type="text/css">
+			td > button { 
+			 background-image : linear-gradient(to right,#F98B88,#fbadaa);
+			 border : none;
+			 color : white;
+			 text-align : center;
+			 font-family : "cursive","condensed";
+			 outline:none;
+			 box-shadow: 0px 3px 3px rgba(0,0,0,.25), 0px 4px 6px rgba(0,0,0,.1);
+			 
+			}
+			td>button:active {
+				box-shadow :5px 0px 18px #AAAAAA;
+				transform : translateY(7px);
+			      }
+			td{ text-align:center;}
+			table{width:100%;
+				height:100%}
+			
+		</style>
+		
+	</head>
+	<body>
+		<div class="topnav"><button class="close"  onclick="document.location.href='main.html'"><b>X</b></button></div>
+		<table id="t">
+		<tr>
+		<td><button onclick="document.location.href='cycloscope.html'">Today's<br>Cycloscope</button></td>
+		<td><button onclick="document.location.href='inventory.html'">The<br>Inventory</button></td>
+		</tr>
+		<tr>
+		<td><button onclick="document.location.href='symptoms/login.php'">Log and view<br>Symptoms</button></td>
+		<td><button onclick="document.location.href='pcos/pcos.php'">PCOS Probability</button></td>
+		</tr>
+		<tr>
+		<td><button onclick="document.location.href='tips.html'">Some<br>Tips</button></td>
+		<td><button onclick="document.location.href='myths.html'">Busting<br>Myths</button></td>
+		</tr>
+		<tr>
+		<td><button onclick="document.location.href='science.html'">The Science<br>Section</button></td>
+		<td><button onclick="document.location.href='settings.html'">Settings</button></td>
+		</tr>
+		</table>
+	</body> 
+	<script type="text/javascript">
+			var table=document.getElementById("t");
+			var w=window.screen.availWidth ;
+			var h=window.screen.availHeight ;
+			var row,i,j;
+			if(w>h){
+				for(i=0;i< table.rows.length;i++)
+				{	row=table.rows[i];
+					for(j=0;j<row.cells.length;j++)
+						row.cells[j].firstChild.setAttribute("style","height:17vw;width:17vw;border-radius:8.5vw;font-size:3.5vw");
+					
+				}
+				}
+			else{
+				
+				for(i=0;i< table.rows.length;i++)
+				{	row=table.rows[i];
+					for(j=0;j<row.cells.length;j++)
+						row.cells[j].firstChild.setAttribute("style","height:17vh;width:17vh;border-radius:8.5vh;font-size:3.5vh");
+
+				}
+				}
+	</script>
+</html>

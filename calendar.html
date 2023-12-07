@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Calender view</title>
+		<link rel="stylesheet" href="./css/topnav.css" type="text/css">
+		<link rel="stylesheet" href="./css/background.css" type="text/css">
+		<link rel="stylesheet" href="./css/card.css" type="text/css">
+		<link rel="stylesheet" href="./css/click.css" type="text/css">
+		<style type="text/css">
+			body{
+					padding:5vh 4vw 2vh 4vw;
+					margin-bottom:0;
+				}
+			#header { 
+				 		background-color:#fbadaa;
+						background-image : linear-gradient(to right,#F98B88,#fbadaa);
+						overflow:hidden;
+				 		box-shadow: 0px 3px 4px rgba(0,0,0,.25), 0px 4px 6px rgba(0,0,0,.1);
+				 		text-align:center;
+						font-family : "cursive","Courier New","monospace","condensed";
+						padding-top:1vh;
+						padding-bottom:1vh;
+						color:white;
+					 }
+			.card{
+					padding:2vh 2vw 2vh 2vw;
+					margin-bottom:4vh;
+				 }
+			#prev{
+					float:left;
+				}
+			#next{
+					float:right;
+				}
+			#w_days{
+					border-bottom:solid 1px black;
+			}
+			#w_days>ul>li{
+				border:none;
+			}
+			#grid{
+			}
+			.tod{
+				color:white;
+				border:solid 2px black;
+			}
+			ul{
+				list-style:none;
+				display:grid;
+				grid-template-columns:repeat(7,auto);
+				grid-column-gap:1px;
+				padding-left:1.5vw;
+			}
+			.menses{background-color:red;}
+			.fertile{background-color:green;}
+			.ovulation{
+				border-style:dashed;
+				border-width: thick;
+				border-color: white;
+				background-color:green;
+			}
+			li{
+				border:solid 1px black;
+				border-radius:50%;
+				text-align:center;
+				color:black;
+			}
+			.bullet{
+				border-radius:50%;
+				display:inline-block;
+				height:3vh;
+				width:3vh;
+			}
+			.back{
+				border-style:solid;
+				position:relative;
+				left:-30%;
+			}
+			.blurred
+			{
+				color:white;
+				border:solid 1px white;
+			}
+		</style>
+	</head>
+	<body id="container">
+		<div class="topnav"><button class="close"  onclick="document.location.href='main.html'"><b>X</b></button></div>
+		<div id="calender">
+			<div id="header">
+			<span onclick="prev_m();" id="prev" class="click">&#10094;</span>
+			<span id="cur_m"></span>
+			<span onclick="next_m();" id="next" class="click">&#10095;</span>
+			</div>
+			<div id="w_days">
+			</div>
+			<div id="grid">
+			</div>
+			<div  class="card">
+				<span class="click back" onclick="document.location.reload();">&#10226</span>
+				<span class="bullet menses"></span>Period<br>
+				<span class="bullet fertile"></span>Fertile Days<br>
+				<span class="bullet ovulation" ></span>Ovulation Day<br>
+				<span class="bullet tod"></span>Today
+			</div>
+		</div>
+		<script type="text/javascript" src="./js/dates.js"></script>
+		<script type="text/javascript">
+			function set_cell_color(cell,dd,mm,yy)
+			{//?? find logic for previous dates
+				var c_date = new Date(yy,mm,dd,0,0,0,0);
+			
+				//not doing anything for dates older than lpd
+				if(c_date.getTime() - lpd.getTime() < 0)
+				return;
+				
+				var days_in_bw = Math.round((c_date.getTime() - lpd.getTime())/(1000*3600*24));
+				var own_c_d = days_in_bw % cl +1;  
+				
+				if(c_date.getTime() == t.getTime())
+					{
+						cell.setAttribute("class","tod"); 
+					}
+					
+				if(own_c_d>=1 && own_c_d<=pl) //for menses
+					{
+						cell.setAttribute("class","menses");
+						if(c_date.getTime() == t.getTime())
+					{
+						cell.setAttribute("class","menses tod"); 
+					}
+					
+					}
+				
+				if(own_c_d > ovulation_day-f_w_l  && own_c_d <= ovulation_day) //for fertile window
+					{cell.setAttribute("class","fertile");
+					if(c_date.getTime() == t.getTime())
+					{
+						cell.setAttribute("class","fertile tod"); 
+					}}
+				
+				if(own_c_d == ovulation_day)  //for ovulation day
+					{cell.setAttribute("class","ovulation");
+					if(c_date.getTime() == t.getTime())
+					{
+						cell.setAttribute("class","tod ovulation"); 
+					}
+					}
+			}
+			var week_days = ["S","M","T","W","T","F","S"];
+			function getMonthDays(m,y)
+			{
+				switch(m)
+				{
+					case 0 : return 31;
+					case 1 : if(y%4==0)
+							{
+								if(y%100 == 0)
+									if(y%400 == 0)
+										return 29;
+									else 
+										return 28;
+								return 29;
+							}
+							return 28;
+					case 2 : return 31;
+					case 3 : return 30;
+					case 4 : return 31;
+					case 5 : return 30;
+					case 6 : return 31;
+					case 7 : return 31;
+					case 8 : return 30;
+					case 9 : return 31;
+					case 10: return 30;
+					case 11 : return 31;
+				}
+			}
+			
+			function refresh(m,y)
+			{	
+				//populating the header
+				document.getElementById("cur_m").innerHTML = months[m]+" "+y;
+				
+				//populating the week_days
+				var _days=document.getElementById("w_days");
+				_days.innerHTML = ''; //to clear the list
+				var list = document.createElement("ul"); 
+				_days.appendChild(list);
+				for(var i=0;i<7;i++)
+				{
+					var cell = document.createElement("li");
+					list.appendChild(cell);
+					cell.innerHTML = week_days[i];
+				}
+				
+				//populating the grid
+				var m_days = getMonthDays(m,y);
+				var prev_m_days,prev_m,prev_y,next_m,next_y;
+				var flag = (new Date(y,m,1,0,0,0,0)).getDay();//flag to indicate position of 1st day of current month; 
+				if(m==0){
+					prev_m = 11;
+					prev_y = y-1;
+					prev_m_days = getMonthDays(prev_m,y-1);
+						}
+				else{
+					prev_m = m-1;
+					prev_y = y;
+					prev_m_days = getMonthDays(m-1,y);
+					}
+				if(m==11)
+				{
+					next_m = 1;
+					next_y = y+1;
+				}
+				else
+				{
+					next_m = m+1;
+					next_y = y;
+				}
+				var i = 1; //for iterating over the current month dates.
+				var j = prev_m_days - (flag-1); //for iterating over the previous month
+				var _grid = document.getElementById("grid");
+				_grid.innerHTML = ''; //to clear the grid
+				while(i<=m_days) //loop for all the rows
+				{	var k=1; //next month counter
+					var list = document.createElement("ul"); //creating a row
+					_grid.appendChild(list);				// adding the row to grid
+					for(l=1;l<=7;l++)						//loop for populationg the row
+					{
+						var cell = document.createElement("li");
+						if(j <= prev_m_days)   //still filling left space
+						{
+							cell.innerHTML = j;
+							set_cell_color(cell,j,prev_m,prev_y);  //DDMMYY
+							cell.setAttribute("class","blurred");
+							j++;
+						}
+						else if(i>m_days)   //filling next month days
+						{
+							cell.innerHTML=k;
+							set_cell_color(cell,k,next_m,next_y);
+							cell.setAttribute("class","blurred");
+							k++;
+						}
+						else					//filling current month days
+						{
+							cell.innerHTML = i;
+							set_cell_color(cell,i,m,y);
+							i++;
+						}
+						list.appendChild(cell);
+					} 
+				}
+				size();
+			}
+			
+			//m_str_to_int function gives the integer equivalent for a month string
+			function m_str_to_int(m)
+			{
+				switch(m)
+				{
+					case "Jan" : return 0;
+					case "Feb" : return 1;
+					case "March" : return 2;
+					case "April" : return 3;
+					case "May" : return 4;
+					case "June" : return 5;
+					case "July" : return 6;
+					case "Aug" : return 7;
+					case "Sep" : return 8;
+					case "Oct" : return 9;
+					case "Nov" : return 10 ;
+					case "Dec" : return 11;
+				}
+			}
+			
+			function prev_m()
+			{
+				var curr_date = document.getElementById("cur_m").innerHTML;
+				var y = parseInt(curr_date.substring(curr_date.length-4,curr_date.length));
+				var m = m_str_to_int(curr_date.substring(0,curr_date.length-5));
+				if(m==0)
+					refresh(11,y-1);
+				else	
+					refresh(m-1,y);
+			}
+			function next_m()
+			{
+				var curr_date = document.getElementById("cur_m").innerHTML;
+				var y = parseInt(curr_date.substring(curr_date.length-4,curr_date.length));
+				var m = m_str_to_int(curr_date.substring(0,curr_date.length-5));
+				if(m==11)
+					refresh(0,y+1);
+				else	
+					refresh(m+1,y);
+			}
+			
+			//populating the header for today's date
+			m = m_str_to_int(m);   //dates.js gives m as string
+			refresh(m,y);			//y already defined in dates.js
+			
+			//setting up size
+			function size(){
+			var x=document.getElementById("container");
+			var w=window.screen.availWidth;
+			var h=window.screen.availHeight;
+			var el=document.getElementById("container").querySelectorAll("div>ul>li");
+			var buls = document.getElementsByClassName("bullet");
+			if(w>h){	
+					x.setAttribute("style","font-size:3vw");
+					for(var i=0;i<el.length;i++)
+					{
+						el[i].setAttribute("style","height:3vw;width:3vw;padding:1vw 1vw 1vw 1vw;");
+					}
+					for(var i=0;i<buls.length;i++)
+					{
+						buls[i].setAttribute("style","height:3vw;width:3vw;");
+					}
+				}
+			else{	
+					x.setAttribute("style","font-size:3vh");
+					for(var i=0;i<el.length;i++)
+					{
+						el[i].setAttribute("style","height:3vh;width:3vh;padding:1vh 1vh 1vh 1vh");
+					}
+					for(var i=0;i<buls.length;i++)
+					{
+						buls[i].setAttribute("style","height:3vh;width:3vh;");
+					}
+			}} 
+			
+		</script>
+	</body>
+</html>

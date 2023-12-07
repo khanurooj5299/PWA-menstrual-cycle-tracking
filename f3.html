@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>f3</title>
+		<link rel="stylesheet" href="./css/background.css" type="text/css">
+		<link rel="stylesheet" href="./css/card.css" type="text/css">
+		<link rel="stylesheet" href="./css/click.css" type="text/css">
+		<style type="text/css">
+			body{
+					padding:2vh 4vw 2vh 4vw;
+				}
+			.card{
+					padding:2vh 2vw 2vh 2vw;
+					margin-bottom:4vh;
+				 }
+			.click{
+					float:right;
+					display:none;
+				} 
+		</style>
+	</head>
+	<body id="container">
+		<div class="card">
+			When did your last period start :<br>
+			<input id="picker" type="date"  onchange="update(this);"><br>
+			<i>
+				Just give a guess if you don't remember. You can always change this
+				date in the settings.
+			</i>
+		</div>
+		<span class="click" onclick="document.location.href='setnoti.html'">NEXT</span>
+		<script type="text/javascript">
+			var t = new Date();
+			t.setHours(0,0,0,0);
+			var y = t.getFullYear();
+			var date = t.getDate();
+			var mon = t.getMonth();
+			mon++;
+			if(mon<=9)
+				mon="0"+mon;
+			if(date<=9)
+				date="0"+date;
+			var i = document.getElementById("picker");
+			i.setAttribute("max",y+"-"+mon+"-"+date);
+			function update(i)
+			{	
+				if(i.value.length<10)
+					return;
+				//i.value is a string with format yyyy-mm-dd
+				window.localStorage.setItem('lpd',i.value);
+				
+				//making NEXT button visible
+				document.getElementsByClassName("click")[0].style.display="initial";
+			}
+		</script>
+		<script type="text/javascript" src="./js/size.js"></script>
+	</body>
+</html>

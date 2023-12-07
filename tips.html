@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Tips</title>
+	<link rel="stylesheet" href="./css/topnav.css" type="text/css">
+	<link rel="stylesheet" href="./css/background.css" type="text/css">
+	<link rel="stylesheet" href="./css/card.css" type="text/css">
+	<style type='text/css'>
+		body{
+			padding:10px 10px 10px 10px;
+		}
+		.card{
+			padding-right:3vw;
+			padding-top:5vh;
+			padding-bottom :2vh;
+			outline:none;
+			overflow:hidden;
+			margin-bottom:1vh;
+		}
+		img{
+			float:right;
+			box-shadow: 0px 3px 3px rgba(0,0,0,.25), 0px 4px 6px rgba(0,0,0,.1);
+			border-radius:50%;
+			margin-top:-3vh;
+			
+		}
+		a{
+			text-decoration: none;
+		}
+	</style>
+	</head>
+	<body id="container">
+		<div class="topnav"><button class="close"  onclick="document.location.href='menu.html'"><b>X</b></button></div>
+		<b>
+		<a href="https://www.healthline.com/health/womens-health/period-bloating" onclick="check(this);">
+		<div class="card">Alleviate Bloating<img src="images/alleviate bloating.jpeg" alt=""></div>
+		</a>
+		<a href="https://www.healthline.com/health/why-does-my-period-smell#fishy-smell" onclick="check(this);">
+		<div class="card">Overcoming Odor<img src="images/overcoming_odor.jpeg" alt=""></div>
+		</a>
+		<a href="https://www.healthpartners.com/blog/13-ways-to-stop-period-pain/" onclick="check(this);">
+		<div class="card">Relieving Cramps<img src="images/relieving cramps.jpeg" alt=""></div>
+		</a>
+		<a href="https://www.healthline.com/health/womens-health/what-to-eat-during-period" onclick="check(this);">
+		<div class="card">Foods to Eat<img src="images/foods to eat.jpeg" alt=""></div>
+		</a>
+		<a href="https://www.intimina.com/blog/remove-period-stains/" onclick="check(this);">
+		<div class="card">Removing Blood Stains<img src="images/removing blood stains.jpeg" alt=""></div>
+		</a>
+		<a href="https://www.wikihow.com/Make-a-Substitute-Sanitary-Pad" onclick="check(this);">
+		<div class="card">DIY Pad<img src="images/diy pad.jpeg" alt=""></div>
+		</a>
+		</b>
+	</body>
+	<script type="text/javascript">
+			var x=document.getElementById("container");
+			var y=document.getElementById("container").querySelectorAll("div>img");
+			var w=window.screen.availWidth ;
+			var h=window.screen.availHeight ;
+			var i;
+			if(w>h){
+				x.setAttribute("style","font-size:4vw");
+				for(i=0;i< y.length;i++)
+				{	
+					y[i].setAttribute("style","height:10vw;width:10vw");
+					
+				}
+				}
+			else{
+				x.setAttribute("style","font-size:4vh");
+				for(i=0;i< y.length;i++)
+				{	
+					y[i].setAttribute("style","height:10vh;width:10vh");
+					
+				}
+			}
+			
+			//setting target="_blank" for all links
+			var links = document.getElementsByTagName("a");
+			for(i=0;i<links.length;i++)
+				links[i].setAttribute("target","_blank"); 
+	</script>
+	<script type="text/javascript">
+		//function which checks connection state when each link is clicked	
+		function check(obj)
+		{
+			if(!navigator.onLine)
+			{	
+				obj.setAttribute("href","./generic.html");
+				obj.setAttribute("target","_self");
+			}
+		}
+	</script>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<link rel="manifest" href="./manifest.json">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Main</title>
+	<link rel="stylesheet" href="./css/background.css" type="text/css">
+	<link rel="stylesheet" href="./css/card.css" type="text/css">
+	<link rel="stylesheet" href="./css/click.css" type="text/css">
+	<style type="text/css">
+		body{	
+				padding:2vh 4vw 2vh 4vw;
+			}
+		.card{
+				padding:2vh 2vw 2vh 2vw;
+				margin-bottom:4vh;
+				margin-top:2vh;
+				height:35vh;
+			 }
+		div{
+			padding:2vh 1vw 1vh 1vw;
+
+		}
+		#picker{
+			display:none;
+		}
+	</style>
+	</head>
+	<body id="container">
+		<div>
+			<span class="click" onclick="document.location.href='menu.html'">Menu</span>
+			<span class="click" onclick="document.location.href='calendar.html'" style="float:right">Calendar</span>
+		</div>
+		<div class="card">
+			<div id="today"></div>
+			<div><label>Cycle Day </label><span id="c_day"></span><br></div>
+			<div><span class="click" onclick="but_clicked();" style="border: solid 2px;">
+			Add new Period date
+			</span>
+			<input id="picker" type="date" onblur="update(this);">
+			</div>
+		</div>
+		<div class="card" id="foot">
+			<div><label>Next period in : </label><span id="n_p_i"></span></div>
+			<div><label>Current Phase : </label><span id="c_p"></span></div>
+			<div id="f_w_c" style="display:none;"><label>Fertile Window ends in :</label><span id="f_w"></span></div>
+		</div>
+	
+	<script type="text/javascript">
+		var x=document.getElementById("container");
+			var w=window.screen.availWidth;
+			var h=window.screen.availHeight ;
+			if(w>h){	
+					x.setAttribute("style","font-size:4vw");
+				}
+			else{	
+					x.setAttribute("style","font-size:4vh");
+			}
+	</script>
+	<script type="text/javascript" src="./js/dates.js"></script>
+	<script type="text/javascript">
+		refresh();
+		
+		//refresh function places content on page for first time visit 
+		function refresh()
+		{	//Displaying todays date
+			document.getElementById("today").innerHTML = day+" , "+m+" "+date;   //all variables are taken from dates.js
+			
+			//Displaying todays cycle day
+			//get lpd from memory and construct a date object corresponding to it   
+			document.getElementById("c_day").innerHTML = c_d; 
+			var late_flag = cl - c_d; //for checking if the period is late
+			
+			if (late_flag < 0)
+			{
+				var f = document.getElementById("foot");
+				f.innerHTML = "Period late by : "+Math.abs(late_flag)+" days!";
+				return;
+			}
+			//setting the colour
+			var col1,col2;
+			if(c_d <= pl)  //menses
+				{
+					col1="#ff7575";   
+					col2="#ff7575";
+				}
+			else if(c_d > ovulation_day-f_w_l  && c_d <= ovulation_day) //f_w_l day fertile window...f_w_l days leading upto and including ovulation
+				{
+					col1="#90ee90";   //fertile window
+					col2="#90ee90";
+					
+					if(late_flag<=0){
+						//Displaying fertile window
+						var fer_w = document.getElementById("f_w");    
+						document.getElementById("f_w_c").style.display = "initial";
+						fer_w.innerHTML = (ovulation_day - c_d) + " Days"; 
+									}
+				}
+			var cards = document.getElementsByClassName("card");
+			for(var i=0;i<cards.length;i++)
+			{	
+				cards[i].style.backgroundImage = "linear-gradient(to right,"+col1+","+col2+")";
+			}
+			
+			//Dispalying days left till next period
+			document.getElementById("n_p_i").innerHTML = (cl-c_d+1)+" days";
+			
+			//Displaying current phase
+			var curr_p = document.getElementById("c_p");
+			curr_p.innerHTML = phase;  //phase variable is already defined in dates.js
+			
+		}
+	
+		//function to add new period
+		function but_clicked()
+		{	
+			var m = t.getMonth();
+			m++;
+			if(m<=9)
+				m="0"+m;
+			var d = t.getDate();
+			if(d<=9)
+				d="0"+d;
+			var i = document.getElementById("picker");
+			i.setAttribute("max",y+"-"+m+"-"+d);
+			i.style.display="initial";
+			i.focus();
+		}
+		
+		function update(i)
+		{	
+			if(i.value.length<10)
+				return;
+				
+			//i.value is a atring with format yyyy-mm-dd
+			window.localStorage.setItem('lpd',i.value);
+			i.style.display="none";
+			document.location.href="setnoti.html";
+		}
+	</script>
+	</body>
+</html>

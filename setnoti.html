@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="./js/dates.js"></script>
+<script type="text/javascript">
+	//cancelling all previous notifications and sync events before setting new ones
+		navigator.serviceWorker.getRegistration().then(function(registration){   
+		registration.getNotifications({includeTriggered : true}).then(function(notifications) {
+			notifications.forEach(function(notification) { 
+			notification.close();
+		})
+		});
+		//registration.periodicSync.unregister('inventory-not');
+	});
+	if(c_d<=cl)  //if next period is not already late
+	{	
+		//setting up a scheduled notification for the next period and ovulation day
+		//time is milliseconds from today after which notification is to be generated
+		var time_period = (cl - c_d + 10/24.0 ) * 24*60*60*1000; //at 10:00 Am ,the day before menses
+		var time_ovu = ((ovulation_day - 1) - c_d + 10/24.0 ) * 24*60*60*1000; //at 10:00 Am ,the day before ovulation
+		
+		Notification.requestPermission().then(function(permission) {
+			if (permission === "granted") {
+				navigator.serviceWorker.ready.then(function(registration) {
+				
+				//notification for periods
+				registration.showNotification("Period starts tomorrow!", {
+					showTrigger : new TimestampTrigger(t.getTime() + time_period),
+				});
+				
+				//notification for inventory 
+				//registration.periodicSync.register('inventory-not',{minInterval:3000});
+				
+				//notification for ovulation
+				if(c_d<ovulation_day)
+					registration.showNotification("Ovulation day tomorrow!", {
+						showTrigger : new TimestampTrigger(t.getTime() + time_ovu),
+				});
+		});
+			console.log("scheduled");
+		}
+	});
+	} 
+	document.location.href="main.html";
+</script>
+</head>
+<body>
+</body>
+</html>

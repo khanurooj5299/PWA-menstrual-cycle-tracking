@@ -1,0 +1,17 @@
+.click{
+		background-color:#fbadaa;
+		background-image : linear-gradient(to right,#F98B88,#fbadaa);
+		border : none;
+		color : white;
+		border-radius : 8px;
+		text-align : center;
+		padding-right: 3vw; 
+		padding-left:3vw;
+		font-family : "Cursive","Courier New", "monospace";
+		outline:none;
+		cursor:pointer;
+				}
+.click:active {
+				box-shadow :5px 0px 18px #AAAAAA;
+				transform : translateY(2vh);
+			      }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>INDEX</title>
+		<link rel="manifest" href="./manifest.json">
+		<script type="text/javascript" src="./js/app.js"></script>
+		<script type="text/javascript">
+			var cl = window.localStorage.getItem('cl') ; //getting cycle length
+			if(cl != null)  //checking if user is visiting for first time or not
+			{
+				var t = new Date();
+				t.setHours(0,0,0,0);
+				var lpd_string = window.localStorage.getItem('lpd');  //returned format:yyyy-mm-dd
+				var lpd = new Date(parseInt(lpd_string.substring(0,4)),parseInt(lpd_string.substring(5,7))-1,parseInt(lpd_string.substring(8,10)),0,0,0,0);
+				var c_d = (Math.round((t.getTime() - lpd.getTime())/(1000*3600*24))) + 1 ;
+				if(c_d > cl)
+					document.location.href = "did_p_start.html";
+				else	
+					document.location.href = "main.html";
+			}
+			else
+			{
+				window.localStorage.setItem('iflag','0');
+				window.localStorage.setItem('pflag','0');
+				window.localStorage.setItem('tflag','0');
+				window.localStorage.setItem('upad','0');
+				window.localStorage.setItem('utam','0');
+				window.localStorage.setItem('lpad','0');
+				window.localStorage.setItem('ltam','0');
+				document.location.href = "f1.html";
+			}
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

@@ -1,0 +1,16 @@
+.topnav { background:none;
+	  overflow:hidden;
+			 }
+.close {
+		border:none;
+		background:none;
+		color:black;
+		padding-left: 10px;
+		outline:none;
+		float:left;
+		text-align : center;
+		font-size:4vh;
+	}
+.close:active{
+		transform : rotate(45deg);
+	     }

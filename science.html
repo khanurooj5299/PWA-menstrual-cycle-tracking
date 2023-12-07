@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Science Section</title>
+	<link rel="stylesheet" href="./css/topnav.css" type="text/css">
+	<link rel="stylesheet" href="./css/background.css" type="text/css">
+	<link rel="stylesheet" href="./css/card.css" type="text/css">
+	<style type='text/css'>
+		body{
+			padding:10px 10px 10px 10px;
+		}
+		.card{
+			outline:none;
+			overflow:hidden;
+			padding-top:3vh;
+			padding-bottom:3vh;
+			padding-left:1vw;
+			padding-right:1vw;
+			margin-bottom:1vh;
+		}
+		a{
+			text-decoration: none;
+		}
+	</style>
+	</head>
+	<body id="container">
+		<div class="topnav"><button class="close"  onclick="document.location.href='menu.html'"><b>X</b></button></div>
+		<b>
+		<a href="https://www.betterhealth.vic.gov.au/health/conditionsandtreatments/menstrual-cycle" onclick="check(this);">
+		<div class="card">The CYCLE and all its different phases</div>
+		</a>
+		<a href="https://www.mayoclinic.org/diseases-conditions/menstrual-cramps/symptoms-causes/syc-20374938" onclick="check(this);">
+		<div class="card">What actually cramps are</div>
+		</a>
+		<a href="https://www.sutterhealth.org/health/teens/female/vaginal-discharge" onclick="check(this);">
+		<div class="card">All the different discharges explained</div>
+		</a>
+		<a href="https://www.ippf.org/blogs/period-products-what-are-options" onclick="check(this);">
+		<div class="card">What sanitary options are avaliable</div>
+		</a>
+		<a href="https://www.healthline.com/health/womens-health/menstrual-clots" onclick="check(this);">
+		<div class="card">Clots in peroid blood</div>
+		</a>
+		</b>
+	</body>
+	<script type="text/javascript">
+			var x=document.getElementById("container");
+			var w=window.screen.availWidth ;
+			var h=window.screen.availHeight ;
+			if(w>h){
+					x.setAttribute("style","font-size:4vw");
+				}
+			else{	
+					x.setAttribute("style","font-size:4vh");
+			}
+			//setting target="_blank" for all links
+			var links = document.getElementsByTagName("a");
+			for(i=0;i<links.length;i++)
+				links[i].setAttribute("target","_blank");
+	</script>
+	<script type="text/javascript">
+		//function which checks connection state when each link is clicked
+		function check(obj)
+		{
+			if(!navigator.onLine)
+			{	
+				obj.setAttribute("href","./generic.html");
+				obj.setAttribute("target","_self");
+			}
+		}
+	</script>
+</html>
